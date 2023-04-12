@@ -13,9 +13,7 @@ const SearchResults: React.FC = () => {
     // const results = data ? data?.webPages?.value : [];
     const [results, setResults ] = useState([]);
 
-    useEffect(() => {
-        q && getSearchResults(q as string).then(data => setResults(data?.webPages ? data?.webPages?.value : []))
-    }, [q]);
+
 
 
     // console.log('data: ', data);
