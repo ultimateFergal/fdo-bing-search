@@ -27,6 +27,7 @@ const SearchBar: React.FC = () => {
 
   const handleSearchh = () => {
     getSearchResults(searchTerm).then(data => {
+      console.log(data);
     });
   }
 
