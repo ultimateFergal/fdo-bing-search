@@ -8,7 +8,6 @@ const Suggestions: React.FC = () => {
     const [searchTerm, ] = useAtom(searchTermState);
     const handleSearch = () => {
         getSearchResults(searchTerm).then(data => {
-          console.log(data, 'search data fdo');
         });
       }
     return (

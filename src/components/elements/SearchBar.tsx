@@ -27,7 +27,6 @@ const SearchBar: React.FC = () => {
 
   const handleSearchh = () => {
     getSearchResults(searchTerm).then(data => {
-      console.log(data, 'search data fdo');
     });
   }
 
@@ -37,7 +36,6 @@ const SearchBar: React.FC = () => {
     } else {
       setSearchTerm(searchTerm)
       getSuggestions(searchTerm).then(data => {
-        console.log(data.suggestionGroups[0]?.searchSuggestions, 'suggestions to save fdo');
         data.suggestionGroups[0]?.searchSuggestions && setSuggestions(data.suggestionGroups[0]?.searchSuggestions);
       });
     }
