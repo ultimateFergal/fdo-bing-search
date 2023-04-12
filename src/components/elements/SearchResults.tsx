@@ -12,7 +12,7 @@ const SearchResults: React.FC = () => {
 
     console.log('data: ', data);
     return (
-        <div>
+        q ? <div>
             {
                 data && data?.webPages && data?.webPages?.value?.map((result: any) => (
                     <div key={result?.id} className='border border-white my-2'>
@@ -21,7 +21,7 @@ const SearchResults: React.FC = () => {
                         <p>{result?.snippet}</p>
                     </div>
                 ))}
-        </div>
+        </div> : null
     )
 }
 
