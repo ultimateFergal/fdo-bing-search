@@ -11,16 +11,16 @@ const SearchResults: React.FC = () => {
     const { data, isLoading, error } = useQuery(['searchResults', q], () => getSearchResults(q as string));
 
     console.log('data: ', data);
-    return(
+    return (
         <div>
             {
-      data?.webPages?.value?.map((result: any) => (
-        <div key={result?.id} className='border border-white my-2'>
-          <h2>{result?.name}</h2>
-          <a href={result?.url}>{result.url}</a>
-          <p>{result?.snippet}</p>
-        </div>
-            ))}
+                data?.webPages && data?.webPages?.value?.map((result: any) => (
+                    <div key={result?.id} className='border border-white my-2'>
+                        <h2>{result?.name}</h2>
+                        <a href={result?.url}>{result.url}</a>
+                        <p>{result?.snippet}</p>
+                    </div>
+                ))}
         </div>
     )
 }
