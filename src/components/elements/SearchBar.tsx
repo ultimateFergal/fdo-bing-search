@@ -4,11 +4,13 @@ import { searchResultsState, searchTermState, suggestionsState } from '@/src/lib
 import { getSearchResults } from '@/src/api/getSearchResults';
 import { getSuggestions } from '@/src/api/getSuggestions';
 import useDebounce from '@/src/hooks/useDebounce';
+import { useRouter } from 'next/router';
 
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useAtom(searchTermState);
   const [, setSearchResults] = useAtom(searchResultsState);
   const [, setSuggestions] = useAtom(suggestionsState);
+  const router = useRouter();
   // const debouncedFilterKey = useDebounce(filterKey, 300);
 
   const handleSearch = async () => {
@@ -26,9 +28,7 @@ const SearchBar: React.FC = () => {
   };
 
   const handleSearchh = () => {
-    getSearchResults(searchTerm).then(data => {
-      console.log(data);
-    });
+    router.push('/search/' + searchTerm);
   }
 
   const handleSuggestions = (searchTerm: string) => {
@@ -58,6 +58,11 @@ const SearchBar: React.FC = () => {
         }}
         onFocus={(e) => {
           handleSuggestions(e.target.value)
+        }}
+        onKeyDown={(e) => {
+          if (e.code == "Enter") {
+            router.push('/search/' + searchTerm);
+          }
         }}
       />
     </div>
