@@ -9,8 +9,7 @@ const SearchResults: React.FC = () => {
     const router = useRouter();
     const { q } = router.query;
     console.log('q:', q);
-    // const { data, isLoading, error } = useQuery(['searchResults', q ?? ''], () => getSearchResults(q as string));
-    // const results = data ? data?.webPages?.value : [];
+
     const [results, setResults ] = useState([]);
 
 
