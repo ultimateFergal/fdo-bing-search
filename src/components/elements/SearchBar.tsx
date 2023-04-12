@@ -19,7 +19,7 @@ const SearchBar: React.FC = () => {
         }
       });
       const data = await response.json();
-      setSearchResults(data.webPages.value);
+      setSearchResults(data?.webPages?.value);
     } catch (error) {
       console.error(error);
     }
