@@ -16,10 +16,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-
-export async function getStaticProps(context: any) {
-    const searchTerm = context?.params.q
-    const { data } = await getSearchResults(searchTerm);
-    console.log(data);
-    return { props: { data } };
-}
