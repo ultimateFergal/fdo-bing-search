@@ -27,13 +27,12 @@ const SearchBar: React.FC = () => {
     } else {
       setSearchTerm(searchTerm)
       setShowSuggestions(true)
-      data && data?.suggestionGroups[0]?.searchSuggestions && setSuggestions(data.suggestionGroups[0]?.searchSuggestions);
-      // getSuggestions(searchTerm).then(data => {
-      //   setShowSuggestions(true)
-      //   data.suggestionGroups[0]?.searchSuggestions && setSuggestions(data.suggestionGroups[0]?.searchSuggestions);
-      // });
+      getSuggestions(searchTerm).then(data => {
+        setShowSuggestions(true)
+        data.suggestionGroups[0]?.searchSuggestions && setSuggestions(data.suggestionGroups[0]?.searchSuggestions);
+      });
     }
-  }, [data, setShowSuggestions, setSuggestions])
+  }, [setShowSuggestions, setSuggestions])
 
 
   return (
