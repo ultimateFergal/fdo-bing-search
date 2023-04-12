@@ -1,55 +1,48 @@
 import { MagnifyingGlass } from 'phosphor-react';
 import { useAtom } from 'jotai';
-import { searchResultsState, searchTermState, suggestionsState } from '@/src/libs/utils';
-import { getSearchResults } from '@/src/api/getSearchResults';
+import { showSuggestionsState, suggestionsState } from '@/src/libs/utils';
 import { getSuggestions } from '@/src/api/getSuggestions';
 import useDebounce from '@/src/hooks/useDebounce';
 import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 
 const SearchBar: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useAtom(searchTermState);
-  const [, setSearchResults] = useAtom(searchResultsState);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [, setShowSuggestions] = useAtom(showSuggestionsState);
   const [, setSuggestions] = useAtom(suggestionsState);
   const router = useRouter();
-  // const debouncedFilterKey = useDebounce(filterKey, 300);
+  const debouncedSearchTerm = useDebounce(searchTerm, 100);
+  const { data } = useQuery(['searchResults', searchTerm], () => getSuggestions(debouncedSearchTerm));
 
-  const handleSearch = async () => {
-    try {
-      const response = await fetch(`${process.env.API_ENDPOINT}?q=${searchTerm}`, {
-        headers: {
-          'Ocp-Apim-Subscription-Key': process.env.API_KEY ?? ''
-        }
-      });
-      const data = await response.json();
-      setSearchResults(data?.webPages?.value);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSearchh = () => {
-    router.push('/search/' + searchTerm);
+  const handleSearch = () => {
+    searchTerm != '' && router.push('/search/' + searchTerm);
   }
 
-  const handleSuggestions = (searchTerm: string) => {
+  const handleSuggestions = useCallback((searchTerm: string) => {
     if (searchTerm == '') {
       setSuggestions([])
+      setShowSuggestions(false)
+      setSearchTerm('')
     } else {
       setSearchTerm(searchTerm)
-      getSuggestions(searchTerm).then(data => {
-        data.suggestionGroups[0]?.searchSuggestions && setSuggestions(data.suggestionGroups[0]?.searchSuggestions);
-      });
+      setShowSuggestions(true)
+      data && data?.suggestionGroups[0]?.searchSuggestions && setSuggestions(data.suggestionGroups[0]?.searchSuggestions);
+      // getSuggestions(searchTerm).then(data => {
+      //   setShowSuggestions(true)
+      //   data.suggestionGroups[0]?.searchSuggestions && setSuggestions(data.suggestionGroups[0]?.searchSuggestions);
+      // });
     }
-  }
+  }, [data, setShowSuggestions, setSuggestions])
 
 
   return (
-    <div className='flex border border-gray-300 rounded-xl w-full'>
-      <button onClick={() => handleSearchh()}>
+    <div className='flex border border-gray-300 rounded-xl w-full py-3 px-3 bg-white'>
+      <button onClick={() => handleSearch()}>
         <MagnifyingGlass size={32} />
       </button>
       <input
-        className='focus:outline-none w-full'
+        className='focus:outline-none w-full rounded-xl ml-2'
         type="text"
         placeholder="Ask me anything..."
         value={searchTerm}
@@ -59,9 +52,15 @@ const SearchBar: React.FC = () => {
         onFocus={(e) => {
           handleSuggestions(e.target.value)
         }}
+        onBlur={() => setShowSuggestions(false)}
         onKeyDown={(e) => {
           if (e.code == "Enter") {
+            setShowSuggestions(false)
             router.push('/search/' + searchTerm);
+          }
+
+          if (e.code == "Escape") {
+            setShowSuggestions(false)
           }
         }}
       />

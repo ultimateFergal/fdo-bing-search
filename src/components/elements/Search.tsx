@@ -3,7 +3,7 @@ import Suggestions from "./Suggestions"
 
 const Search: React.FC = () => {
     return (
-        <div className="flex">
+        <div className="rlex relative">
             <SearchBar />
             <Suggestions />
         </div>
