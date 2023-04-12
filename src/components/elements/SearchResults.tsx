@@ -6,6 +6,7 @@ import ResultItem from "./ResultItem";
 const SearchResults: React.FC = () => {
     const router = useRouter();
     const { q } = router.query;
+
     const { data } = useQuery(['searchResults', q], () => getSearchResults(q as string));
 
     return (

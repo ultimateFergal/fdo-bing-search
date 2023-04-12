@@ -13,7 +13,6 @@ const SearchBar: React.FC = () => {
   const [, setSuggestions] = useAtom(suggestionsState);
   const router = useRouter();
   const debouncedSearchTerm = useDebounce(searchTerm, 100);
-  const { data } = useQuery(['searchResults', searchTerm], () => getSuggestions(debouncedSearchTerm));
 
   const handleSearch = () => {
     searchTerm != '' && router.push('/search/' + searchTerm);
