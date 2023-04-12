@@ -14,7 +14,7 @@ const SearchResults: React.FC = () => {
     const [results, setResults ] = useState([]);
 
     useEffect(() => {
-        getSearchResults(q as string).then(data => setResults(data?.webPages ? data?.webPages?.value : []))
+        q && getSearchResults(q as string).then(data => setResults(data?.webPages ? data?.webPages?.value : []))
     }, [q]);
 
 
