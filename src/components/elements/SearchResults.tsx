@@ -14,7 +14,7 @@ const SearchResults: React.FC = () => {
     return (
         <div>
             {
-                data?.webPages && data?.webPages?.value?.map((result: any) => (
+                data && data?.webPages && data?.webPages?.value?.map((result: any) => (
                     <div key={result?.id} className='border border-white my-2'>
                         <h2>{result?.name}</h2>
                         <a href={result?.url}>{result.url}</a>
